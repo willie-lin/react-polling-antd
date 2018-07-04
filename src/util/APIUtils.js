@@ -1,24 +1,46 @@
 
 import { API_BASE_URL, POLL_LIST_SIZE, ACCESS_TOKEN } from "../constants";
 
+// const request = (options) => {
+//
+//     const headers = new Headers({
+//         'Content-Type': 'application/json',
+//     })
+//
+//     if (localStorage.getItem(ACCESS_TOKEN)){
+//         headers.append('Authorization', 'Bearer ' + localStorage.getItem(ACCESS_TOKEN))
+//     }
+//
+//     const defaults = {headers: headers};
+//     options = Object.assign({}, defaults, options);
+//
+//
+//     return fetch(options.url, options)
+//         .then(response => response.json().then(
+//             json => {
+//                 if (!response.ok){
+//                     return Promise.reject(json);
+//                 }
+//                 return json;
+//             })
+//         );
+// };
 const request = (options) => {
-
     const headers = new Headers({
         'Content-Type': 'application/json',
     })
 
-    if (localStorage.getItem(ACCESS_TOKEN)){
+    if(localStorage.getItem(ACCESS_TOKEN)) {
         headers.append('Authorization', 'Bearer ' + localStorage.getItem(ACCESS_TOKEN))
     }
 
     const defaults = {headers: headers};
     options = Object.assign({}, defaults, options);
 
-
     return fetch(options.url, options)
-        .then(response => response.json().then(
-            json => {
-                if (!response.ok){
+        .then(response =>
+            response.json().then(json => {
+                if(!response.ok) {
                     return Promise.reject(json);
                 }
                 return json;
@@ -30,15 +52,15 @@ export function login(loginRequest) {
     return request({
         url: API_BASE_URL + "/auth/signin",
         method: 'POST',
-        body: JSON.stringify(loginRequest)
+        body: JSON.stringify(loginRequest),
     });
 }
 
-export function signup(signupRequest) {
+export function signup(signUpRequest) {
     return request({
         url: API_BASE_URL + "/auth/signup",
-        method: 'GET',
-        body: JSON.stringify(signupRequest)
+        method: 'POST',
+        body: JSON.stringify(signUpRequest),
     });
 }
 
@@ -46,21 +68,21 @@ export function checkUsernameAvailability(username) {
     return request({
 
         url: API_BASE_URL + "/user/checkUsernameAvailability?username=" + username,
-        method: 'POST',
+        method: 'GET',
     });
 }
 
 export function checkEmailAvailability(email) {
     return request({
         url: API_BASE_URL + "/user/checkEmailAvailability?email=" + email,
-        method: 'GET'
+        method: 'GET',
     });
 }
 
 export function getUserProfile(username) {
     return request({
         url: API_BASE_URL + "/users" + username,
-        method: 'GET'
+        method: 'GET',
     });
 }
 
@@ -71,6 +93,6 @@ export function getCurrentUser() {
 
     return request({
         url: API_BASE_URL + "/user/me",
-        method: 'GET'
+        method: 'GET',
     });
 }

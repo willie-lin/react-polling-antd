@@ -51,26 +51,49 @@ class Signup extends Component{
         });
     }
 
-    handleSubmit(event){
+    // handleSubmit(event){
+    //     event.preventDefault();
+    //     const signupRequest = {
+    //         name: this.state.name.value,
+    //         username: this.state.username.value,
+    //         email: this.state.email.value,
+    //         password: this.state.password.value
+    //     };
+    //     signup(signupRequest).then(response => {
+    //
+    //         notification.success({
+    //            message: 'Polling APP',
+    //            description: "Thank you!  You're successfully registered. Please Login to container!!!",
+    //         });;
+    //         this.props.push("/login");
+    //     }).catch(error => {
+    //        notification.error({
+    //            message: 'Polling App',
+    //            description: error.message || 'Sorry! Something went wrong Please try again!'
+    //        }) ;
+    //     });
+    // }
+
+    handleSubmit(event) {
         event.preventDefault();
-        const signupRequest = {
+
+        const signUpRequest = {
             name: this.state.name.value,
             username: this.state.username.value,
             email: this.state.email.value,
             password: this.state.password.value
         };
-        signup(signupRequest).then(response => {
-
-            notification.success({
-               message: 'Polling APP',
-               description: "Thank you!  You're successfully registered. Please Login to container!!!",
-            });;
-            this.props.push("/login");
-        }).catch(error => {
-           notification.error({
-               message: 'Polling App',
-               description: error.message || 'Sorry! Something went wrong Please try again!'
-           }) ;
+        signup(signUpRequest).then(response => {
+                notification.success({
+                    message: 'Polling App',
+                    description: "Thank you! You're successfully registered. Please Login to continue!",
+                });
+                this.props.history.push("/login");
+            }).catch(error => {
+            notification.error({
+                message: 'Polling App',
+                description: error.message || 'Sorry! Something went wrong. Please try again!'
+            });
         });
     }
 
@@ -81,7 +104,6 @@ class Signup extends Component{
                 this.state.password.validateStatus === 'success'
         );
     }
-
 
     render() {
         return (
@@ -97,7 +119,7 @@ class Signup extends Component{
                                    autoComplete="off"
                                    placeholder="You full name"
                                    value={this.state.name.value}
-                                   onChange={(event) => this.handleInputChange(event, this.validateName())}
+                                   onChange={(event) => this.handleInputChange(event, this.validateName)}
                             />
                         </FormItem>
                         <FormItem label="Username" hasFeedback validateStatus={this.state.username.validateStatus}
