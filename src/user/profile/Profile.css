@@ -1,0 +1,10 @@
+.user-details{
+    padding-top: 40px;
+    padding-bottom: 20px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.user-avatar-circle{
+    width: 120px;
+}
