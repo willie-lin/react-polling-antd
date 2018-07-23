@@ -1,24 +1,22 @@
 import React, { Component } from 'react';
-import logo from '../logo.svg';
-import { Button } from 'antd'
 import './App.css';
 import { Route, withRouter, Switch } from 'react-router-dom';
 import { getCurrentUser } from "../util/APIUtils";
 import { ACCESS_TOKEN } from "../constants";
-
+import Profile from '../user/profile/Profile';
 import AppHeader from '../common/AppHeader';
 import Login from '../user/login/Login'
 import Signup from '../user/signup/Signup'
+import PollList from '../poll/PollList';
 import NotFound from '../common/NotFound';
 import LoadingIndicator from '../common/LoadingIndicator';
 import PrivateRoute from '../common/PriivateRoute';
 
 import { Layout, notification } from 'antd';
-
 const { Content } = Layout;
 
 
-class App extends React.Component{
+class App extends Component{
     constructor(props) {
         super(props);
         this.state = {
@@ -99,8 +97,14 @@ class App extends React.Component{
             <Content className="app-content">
                 <div className="container">
                     <Switch>
+
                         <Route path="/login" render={(props) => <Login onLogin={this.handleLogin} {...props} />}></Route>
                         <Route path="/signup" component={Signup}></Route>
+
+                        <Route path="/users/:username"
+                               render={(props) => <Profile isAuthenticated={this.state.isAuthenticated} currentUser={this.state.currentUser} {...props} />}>
+                        </Route>
+                        <Route component={NotFound}></Route>
                     </Switch>
                 </div>
             </Content>

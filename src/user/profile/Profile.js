@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Avatar, Tabs } from 'antd';
 import PollList from '../../poll/PollList';
-import getUserProfile from '../../util/APIUtils';
+import { getUserProfile} from "../../util/APIUtils";
 import { getAvatarColor } from "../../util/Colors";
 import { formatDate} from "../../util/Helpers";
 import LoadingIndicator from '../../common/LoadingIndicator';
@@ -9,12 +9,9 @@ import './Profile.css';
 import NotFound from '../../common/NotFound';
 import ServerError from '../../common/ServerError';
 
-
 const TabPane = Tabs.TabPane;
 
-
 class Profile extends Component{
-
     constructor(props) {
         super(props);
         this.state = {
@@ -24,41 +21,43 @@ class Profile extends Component{
         this.loadUserProfile = this.loadUserProfile.bind(this);
     }
 
-    loadUserProfile(username){
+
+    loadUserProfile(username) {
         this.setState({
             isLoading: true
         });
+
         getUserProfile(username).then(response => {
             this.setState({
                 user: response,
                 isLoading: false
-            })
-            }).cache(error => {
-                if (error.status === 404){
-                    this.setState({
-                        notFound: true,
-                        isLoading: false
-                    })
-                } else{
-                    this.setState({
-                        serverError: true,
-                        isLoading: false
-                    });
-                }
+            });
+        }).catch(error => {
+            if (error.status === 404){
+                this.setState({
+                    notFound: true,
+                    isLoading: false
+                });
+            } else {
+                this.setState({
+                    serverError: true,
+                    isLoading: false
+                });
+            }
         });
     }
 
-    componentDidMount(){
+    componentDidMount() {
         const username = this.props.match.params.username;
         this.loadUserProfile(username);
     }
 
-    componentWillReceiveProps(nextProps){
-        if (this.props.match.params.username != nextProps.match.params.username){
+
+    componentWillReceiveProps(nextProps) {
+        if(this.props.match.params.username !== nextProps.match.params.username) {
             this.loadUserProfile(nextProps.match.params.username);
         }
     }
-
 
     render() {
         if (this.state.isLoading){
@@ -74,7 +73,6 @@ class Profile extends Component{
         const tabBarStyle = {
             textAlign: 'center'
         }
-
         return (
             <div className="profile">
                 {
@@ -115,5 +113,4 @@ class Profile extends Component{
         );
     }
 }
-
 export default Profile;
